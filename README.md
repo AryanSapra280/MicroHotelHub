@@ -1,3 +1,5 @@
+![image](https://github.com/AryanSapra280/microhotel-user-service/assets/167304409/74f46126-2400-43c4-add6-44c0b281a456)
+
 # user-service Microservice
 
 The userService microservice provides functionality for managing user information, including retrieval, creation, updating, and deletion of user records. It is designed as part of a larger system, leveraging Spring Boot and JPA for efficient development and integration.
