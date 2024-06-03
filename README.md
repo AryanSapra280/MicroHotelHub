@@ -1,5 +1,8 @@
 ![image](https://github.com/AryanSapra280/microhotel-user-service/assets/167304409/74f46126-2400-43c4-add6-44c0b281a456)
 
+# Registration in the Eureka server as a client
+![image](https://github.com/AryanSapra280/microhotel-user-service/assets/167304409/c87f1a69-4c11-4276-b006-3bc28ec7e03e)
+
 # user-service Microservice
 
 The userService microservice provides functionality for managing user information, including retrieval, creation, updating, and deletion of user records. It is designed as part of a larger system, leveraging Spring Boot and JPA for efficient development and integration.
