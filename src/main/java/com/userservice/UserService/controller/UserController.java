@@ -45,6 +45,8 @@ public class UserController {
     @PostMapping("/save")
     public ResponseEntity<?> postMethodName(@RequestBody User user) {
         try {
+            String email = user.getEmail();
+            user.setEmail(email.toLowerCase());
             User savedUser = userService.saveUser(user);
             return new ResponseEntity<User>(savedUser,HttpStatus.CREATED);    
         } catch (Exception e) {
