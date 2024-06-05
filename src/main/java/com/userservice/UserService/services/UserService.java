@@ -1,11 +1,15 @@
 package com.userservice.UserService.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.ctc.wstx.shaded.msv_core.util.Uri;
+import com.userservice.UserService.dtos.Rating;
 import com.userservice.UserService.entities.User;
 import com.userservice.UserService.exceptions.customException.DuplicateEmail;
 import com.userservice.UserService.exceptions.customException.UserNotFound;
@@ -16,17 +20,27 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserRepositories userRepositories;
+    @Autowired
+    private RestTemplate restTemplate;
     @Override
     public List<User> getAllUser() {
-        return userRepositories.findAll();
+        List<User>users =  userRepositories.findAll();
+        for(int i=0;i<users.size();i++) {
+            ArrayList<Rating> ratings = restTemplate.getForObject("http://localhost:8082/rating/user/"+users.get(i).getEmail(),ArrayList.class);
+            users.get(i).setRatings(ratings);
+        }
+        return users;
     }
 
     @Override
-    public User getUserById(String id) {
-
-        //one line solution
-        return userRepositories.findById(id).orElseThrow(()->new UserNotFound("User doesn't exist with this id:" + id));
+    public User getUserByEmail(String email) {
         
+        //one line solution
+        User user = userRepositories.findByEmail(email).orElseThrow(()->new UserNotFound("User doesn't exist with this email id:" + email));
+        // String ratingUrl = String.format("http://localhost:8082/rating/user/%s", user.getEmail()) ;
+        ArrayList<Rating> ratings = restTemplate.getForObject("http://localhost:8082/rating/user/"+user.getEmail(),ArrayList.class);
+        user.setRatings(ratings);
+        return user;
         // User foundUser = null;
         // try {
         //     foundUser = userRepositories.findById(id).get();
