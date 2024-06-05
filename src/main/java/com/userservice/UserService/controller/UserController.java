@@ -2,6 +2,7 @@ package com.userservice.UserService.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.userservice.UserService.entities.User;
 import com.userservice.UserService.exceptions.customException.UserNotFound;
@@ -26,16 +27,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    
+
     @GetMapping("/all")
     public ResponseEntity<?> getAll() {
         List<User> users = userService.getAllUser();
         return new ResponseEntity<List<User>>(users,HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") String id) {
+    @GetMapping("/{emailId}")
+    public ResponseEntity<?> getById(@PathVariable String emailId) {
         try {
-            User user = userService.getUserById(id);
+            User user = userService.getUserByEmail(emailId);
+            
             return new ResponseEntity<User>(user,HttpStatus.OK);
         }catch(UserNotFound ex) {
             return new ResponseEntity<String>(ex.getMessage(),HttpStatus.NOT_FOUND);
@@ -43,7 +47,7 @@ public class UserController {
     }
     
     @PostMapping("/save")
-    public ResponseEntity<?> postMethodName(@RequestBody User user) {
+    public ResponseEntity<?> saveUser(@RequestBody User user) {
         try {
             String email = user.getEmail();
             user.setEmail(email.toLowerCase());
@@ -56,7 +60,7 @@ public class UserController {
     }
     
     @PutMapping("update/{email}")
-    public ResponseEntity<?> putMethodName(@PathVariable String email, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(@PathVariable String email, @RequestBody User user) {
         User updatedUser = null;
         user.setEmail(email);
         try {

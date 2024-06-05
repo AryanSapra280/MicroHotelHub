@@ -13,8 +13,9 @@ import lombok.ToString;
 @ToString
 public class Rating {
     private String ratingId;
-    private String hotelId;
-    private Integer ratingValue;
-    private Integer userId;
+    private String hotelName;
+    private String ratingValue;
+    private String userEmail;
     private String feedback;
+    private Hotel hotel;
 }
